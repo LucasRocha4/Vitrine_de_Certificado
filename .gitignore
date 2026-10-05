@@ -1,0 +1,16 @@
+# Django / SQLite database
+/db.sqlite3
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Local virtual environments
+.venv/
+venv/
+
+# Local environment variables
+.env
+
+# Collected static files
+/staticfiles/

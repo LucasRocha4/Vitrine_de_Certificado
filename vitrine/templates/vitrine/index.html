@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYS.CERTIFICADOS // PORTFOLIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0d0814;
+            --neon-purple: #b026ff;
+            --dark-purple: #4b0082;
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00e5ff;
+            --neon-green: #39ff14;
+            --text-main: #e0e0e0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(rgba(148, 0, 211, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 0, 211, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--dark-purple);
+            text-transform: uppercase;
+            margin: 0 0 50px;
+            overflow-wrap: anywhere;
+        }
+
+        .site-shell { width: min(1200px, 100%); margin: 0 auto; }
+        .eyebrow, .section-kicker { color: var(--neon-cyan); font-size: 0.78rem; text-transform: uppercase; }
+        .eyebrow { text-align: center; margin: 0 0 12px; }
+        h1 { position: sticky; top: 0; z-index: 5; margin-bottom: 14px; padding: 8px 0; background: transparent; }
+        .brand-home { color: inherit; text-decoration: none; }
+        .brand-home:hover, .brand-home:focus-visible { color: #fff; text-shadow: 0 0 12px var(--neon-purple); }
+        .intro { max-width: 620px; margin: 0 auto 44px; color: #a9a2b1; text-align: center; line-height: 1.6; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 0 0 16px; }
+        .section-heading h2, .category-title { margin: 5px 0 0; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: #fff; }
+        .section-heading p { margin: 0; color: #8f8798; font-size: 0.85rem; }
+
+        .featured-grid, .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .certificate-card {
+            --accent: var(--neon-purple);
+            min-width: 0;
+            background: linear-gradient(145deg, rgba(21, 14, 31, 0.98), rgba(9, 8, 13, 0.98));
+            border: 1px solid color-mix(in srgb, var(--accent) 42%, #241d2b);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28), inset 0 0 24px rgba(75, 0, 130, 0.12);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .certificate-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 25%, transparent); }
+        .certificate-card[data-category="ALURA"] { --accent: var(--neon-cyan); }
+        .certificate-card[data-category="FACULDADE"] { --accent: var(--neon-green); }
+        .certificate-card[data-category="INGLES"] { --accent: var(--neon-pink); }
+        .certificate-card[data-category="OUTROS"] { --accent: var(--neon-purple); }
+        .card-content { padding: 18px; }
+        .card-content h3 { margin: 10px 0 14px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 1rem; line-height: 1.45; overflow-wrap: anywhere; }
+
+        .badge { display: inline-block; padding: 4px 8px; border: 1px solid var(--accent); color: var(--accent); font-family: 'Orbitron', sans-serif; font-size: 0.62rem; text-transform: uppercase; }
+        .certificate-layout { display: grid; grid-template-columns: minmax(0, 1fr) 160px; gap: 14px; align-items: center; }
+        .certificate-meta { margin: 0; color: #aaa3b2; font-size: 0.82rem; line-height: 1.55; overflow-wrap: anywhere; }
+        .certificate-meta + .certificate-meta { margin-top: 7px; }
+        .certificate-meta strong { display: block; color: var(--accent); font-size: 0.66rem; }
+
+        .pdf-preview { display: block; width: 160px; height: 100px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 52%, #28222e); background: #fff; }
+        .pdf-preview iframe { display: block; width: 100%; height: 100%; border: 0; pointer-events: none; }
+        .preview-caption { display: block; margin-top: 5px; color: var(--accent); text-align: center; font-size: 0.62rem; }
+        .preview-link { color: inherit; text-decoration: none; }
+        .preview-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 9px 12px; border: 1px solid var(--accent, var(--neon-purple)); color: var(--accent, var(--neon-purple)); background: transparent; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 0.68rem; font-weight: bold; text-transform: uppercase; overflow-wrap: anywhere; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
+        .btn:hover, .btn:focus-visible { background: var(--accent, var(--neon-purple)); color: #050505; box-shadow: 0 0 18px color-mix(in srgb, var(--accent, var(--neon-purple)) 45%, transparent); }
+        .card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .empty-state { color: #b4aabd; padding: 16px 0; font-size: 0.9rem; }
+        .missing-card { min-height: 222px; display: grid; place-content: center; padding: 22px; text-align: center; color: #90899a; }
+        .missing-card strong { display: block; margin-bottom: 8px; color: var(--accent); font-family: 'Orbitron', sans-serif; font-size: 0.75rem; }
+
+        .category-browser { margin-top: 48px; padding-top: 25px; border-top: 1px solid rgba(176, 38, 255, 0.3); }
+        .carousel-frame { min-width: 0; }
+        .category-carousel { display: grid; grid-auto-columns: minmax(150px, 1fr); grid-auto-flow: column; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #594166 #100b16; padding: 4px 2px 12px; }
+        .category-tile { --accent: var(--neon-purple); min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; scroll-snap-align: start; border: 1px solid #3a2b43; border-radius: 3px; color: #c9c0d0; background: linear-gradient(120deg, rgba(26, 17, 35, 0.95), rgba(12, 11, 17, 0.95)); font: inherit; text-align: left; cursor: pointer; transition: transform 0.2s, border-color 0.2s, color 0.2s, background 0.2s; }
+        .category-tile[data-category="ALURA"] { --accent: var(--neon-cyan); }
+        .category-tile[data-category="FACULDADE"] { --accent: var(--neon-green); }
+        .category-tile[data-category="INGLES"] { --accent: var(--neon-pink); }
+        .category-tile[data-category="OUTROS"] { --accent: var(--neon-purple); }
+        .category-tile:hover, .category-tile:focus-visible, .category-tile[aria-pressed="true"] { color: #fff; border-color: var(--accent); transform: translateY(-2px); }
+        .category-tile[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 12%, #100c16); box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 22%, transparent); }
+        .category-tile span:first-child { font-family: 'Orbitron', sans-serif; font-size: 0.72rem; }
+
+        .category-results { min-height: 240px; margin-top: 30px; scroll-margin-top: 24px; }
+        .category-results[hidden], .screen[hidden] { display: none !important; }
+        .category-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 16px; }
+        .category-title { color: var(--accent, #fff); }
+        .category-heading button { color: #aaa3b2; border: 0; background: none; font: inherit; cursor: pointer; }
+        .category-heading button:hover { color: #fff; }
+
+        .contact { display: block; width: fit-content; margin: 42px auto 0; }
+        .warp-overlay { position: fixed; z-index: 10; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; perspective: 260px; background: radial-gradient(ellipse at center, transparent 0 16%, rgba(0, 0, 0, 0.94) 88%); }
+        .warp-overlay::before { content: ''; position: absolute; inset: -100% -45% -70%; transform: rotateX(62deg) translateY(28%); transform-origin: center 68%; background-image: linear-gradient(rgba(0, 229, 255, 0.48) 1px, transparent 1px), linear-gradient(90deg, rgba(176, 38, 255, 0.44) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(transparent, #000 35%, #000); }
+        .is-warping .warp-overlay { opacity: 1; }
+        .is-warping .warp-overlay::before { animation: fly-forward 1.05s cubic-bezier(0.18, 0.72, 0.2, 1) both; }
+        .is-warping .site-shell { animation: cockpit-zoom 0.72s ease-in both; }
+        .category-results.is-entering { animation: arrive 0.55s ease-out both; }
+
+        @keyframes fly-forward { 0% { transform: rotateX(62deg) translateY(25%) scale(0.8); opacity: 0; } 18% { opacity: 1; } 100% { transform: rotateX(62deg) translateY(-42%) scale(2.8); opacity: 0; } }
+        @keyframes cockpit-zoom { 0% { transform: scale(1); filter: blur(0); } 55% { transform: scale(1.07); filter: blur(1px); } 100% { transform: scale(0.985); filter: blur(0); } }
+        @keyframes arrive { from { opacity: 0; transform: translateY(24px) scale(0.985); filter: blur(5px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+
+        @media (max-width: 850px) {
+            .featured-grid, .certificate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .featured-card:last-child { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 560px) {
+            body { padding: 26px 16px; }
+            h1 { margin-bottom: 12px; font-size: 1.35rem; }
+            .intro { margin-bottom: 32px; font-size: 0.9rem; }
+            .section-heading { align-items: start; flex-direction: column; gap: 5px; }
+            .featured-grid, .certificate-grid { grid-template-columns: minmax(0, 1fr); }
+            .featured-card:last-child { grid-column: auto; }
+            .category-browser { margin-top: 34px; }
+            .category-carousel { grid-auto-columns: 142px; }
+            .certificate-layout { grid-template-columns: minmax(0, 1fr) 132px; gap: 10px; }
+            .pdf-preview { width: 132px; height: 82px; }
+            .category-heading { align-items: start; flex-direction: column; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="warp-overlay" aria-hidden="true"></div>
+    <main class="site-shell">
+        <p class="eyebrow">PORTFOLIO // REGISTRO DE CONQUISTAS</p>
+        <h1><a href="/" id="home-link" class="brand-home" aria-label="SYS.CERTIFICADOS, voltar aos destaques">SYS.CERTIFICADOS</a></h1>
+        <p class="intro">Uma rota por cada etapa da minha jornada. Explore os certificados por categoria.</p>
+
+        <section id="featured-screen" class="screen" aria-labelledby="featured-title">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">SELEÇÃO ALEATÓRIA</span>
+                    <h2 id="featured-title">Três pontos de partida</h2>
+                </div>
+                <p>Um certificado de cada área em destaque.</p>
+            </div>
+
+            <div class="featured-grid">
+                {% for item in featured_certificates %}
+                    {% with cert=item.certificate %}
+                    <article class="certificate-card featured-card" data-category="{{ item.key }}">
+                        {% if cert %}
+                        <div class="card-content">
+                            <span class="badge">{{ item.label }}</span>
+                            <h3>{{ cert.titulo }}</h3>
+                            <div class="certificate-layout">
+                                <div>
+                                    <p class="certificate-meta"><strong>&gt; INST</strong>{{ cert.instituicao }}</p>
+                                    <p class="certificate-meta"><strong>&gt; DATE</strong>{{ cert.data_conclusao|date:"d/m/Y" }}</p>
+                                </div>
+                                <a class="preview-link" href="{{ cert.documento.url }}" target="_blank" rel="noopener noreferrer" aria-label="Abrir preview do certificado {{ cert.titulo }}">
+                                    <span class="pdf-preview"><iframe src="{{ cert.documento.url }}#page=1&zoom=page-fit&toolbar=0&navpanes=0" title="Prévia: {{ cert.titulo }}" loading="lazy"></iframe></span>
+                                    <span class="preview-caption">ABRIR PDF</span>
+                                </a>
+                            </div>
+                            <div class="card-actions">
+                                <a href="{{ cert.documento.url }}" target="_blank" rel="noopener noreferrer" class="btn">Ver certificado</a>
+                                {% if cert.link_validacao %}<a href="{{ cert.link_validacao }}" target="_blank" rel="noopener noreferrer" class="btn">Validar</a>{% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="missing-card"><strong>{{ item.label }}</strong>Nenhum certificado cadastrado nesta categoria.</div>
+                        {% endif %}
+                    </article>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="category-browser" aria-labelledby="category-browser-title">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">ESCOLHA SUA ROTA</span>
+                    <h2 id="category-browser-title">Categorias</h2>
+                </div>
+                <p>Selecione uma categoria para avançar.</p>
+            </div>
+            <div class="carousel-frame">
+                <div class="category-carousel" id="category-carousel" aria-label="Carrossel de categorias">
+                    {% for section in category_sections %}
+                    <button type="button" class="category-tile" data-category="{{ section.key }}" aria-pressed="false">
+                        <span>{{ section.label }}</span>
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section id="category-results" class="category-results" aria-live="polite" aria-label="Certificados da categoria" hidden>
+            {% for section in category_sections %}
+            <div class="category-panel" data-category-panel="{{ section.key }}" hidden>
+                <div class="category-heading certificate-card" data-category="{{ section.key }}">
+                    <div class="card-content">
+                        <span class="section-kicker">DESTINO // {{ section.key }}</span>
+                        <h2 class="category-title">{{ section.label }}</h2>
+                    </div>
+                    <button type="button" data-return>Voltar aos destaques</button>
+                </div>
+                {% if section.certificates %}
+                <div class="certificate-grid">
+                    {% for cert in section.certificates %}
+                    <article class="certificate-card" data-category="{{ section.key }}">
+                        <div class="card-content">
+                            <span class="badge">{{ section.label }}</span>
+                            <h3>{{ cert.titulo }}</h3>
+                            <div class="certificate-layout">
+                                <div>
+                                    <p class="certificate-meta"><strong>&gt; INST</strong>{{ cert.instituicao }}</p>
+                                    <p class="certificate-meta"><strong>&gt; DATE</strong>{{ cert.data_conclusao|date:"d/m/Y" }}</p>
+                                </div>
+                                <a class="preview-link" href="{{ cert.documento.url }}" target="_blank" rel="noopener noreferrer" aria-label="Abrir preview do certificado {{ cert.titulo }}">
+                                    <span class="pdf-preview"><iframe src="{{ cert.documento.url }}#page=1&zoom=page-fit&toolbar=0&navpanes=0" title="Prévia: {{ cert.titulo }}" loading="lazy"></iframe></span>
+                                    <span class="preview-caption">ABRIR PDF</span>
+                                </a>
+                            </div>
+                            <div class="card-actions">
+                                <a href="{{ cert.documento.url }}" target="_blank" rel="noopener noreferrer" class="btn">Ver certificado</a>
+                                {% if cert.link_validacao %}<a href="{{ cert.link_validacao }}" target="_blank" rel="noopener noreferrer" class="btn">Validar</a>{% endif %}
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="empty-state">Nenhum certificado cadastrado nesta categoria ainda.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </section>
+
+        <a href="https://www.linkedin.com/in/lucas-d-rocha/" target="_blank" rel="noopener noreferrer" class="btn contact">ENTRE EM CONTATO</a>
+    </main>
+    <script>
+        const categoryButtons = document.querySelectorAll('.category-tile');
+        const categoryPanels = document.querySelectorAll('[data-category-panel]');
+        const categoryResults = document.getElementById('category-results');
+        const featuredScreen = document.getElementById('featured-screen');
+        let transitionTimer;
+
+        function showFeatured() {
+            clearTimeout(transitionTimer);
+            document.body.classList.add('is-warping');
+            transitionTimer = setTimeout(() => {
+                categoryResults.hidden = true;
+                featuredScreen.hidden = false;
+                categoryButtons.forEach((button) => button.setAttribute('aria-pressed', 'false'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => document.body.classList.remove('is-warping'), 420);
+            }, 480);
+        }
+
+        document.getElementById('home-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            showFeatured();
+        });
+
+        categoryButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const selectedCategory = button.dataset.category;
+                clearTimeout(transitionTimer);
+                document.body.classList.add('is-warping');
+                categoryButtons.forEach((tile) => tile.setAttribute('aria-pressed', String(tile === button)));
+                transitionTimer = setTimeout(() => {
+                    featuredScreen.hidden = true;
+                    categoryPanels.forEach((panel) => {
+                        panel.hidden = panel.dataset.categoryPanel !== selectedCategory;
+                    });
+                    categoryResults.hidden = false;
+                    categoryResults.classList.remove('is-entering');
+                    void categoryResults.offsetWidth;
+                    categoryResults.classList.add('is-entering');
+                    categoryResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => document.body.classList.remove('is-warping'), 520);
+                }, 480);
+            });
+        });
+
+        document.querySelectorAll('[data-return]').forEach((button) => {
+            button.addEventListener('click', showFeatured);
+        });
+    </script>
+</body>
+</html>
